@@ -10,8 +10,9 @@ This repo provides update files for Kotatogram Desktop autoupdater.
 After uploading update files, I need to update [feed file](https://github.com/kotatogram/kotatogram.github.io/blob/dev/public/current). But I'm planning to make this process more automatic.
 
 ## What I'm planning
-1. I'll make two branches: `beta` and `stable`. To reduce repository size, they are updating by force-push.
-2. When branch is updated, GitHub CI will push files from both branches to `master`, and remember new files.
-3. After pushing CI will clone updates site and change feed file, commiting and pushing it back.
+
+* [x] Make two branches: `beta` and `stable`. To reduce repository size, they are updating by force-push.
+* [ ] Make action to force-push update files from all branches to `master`, remembering new files.
+* [ ] Make action to change feed file and commiting it back.
 
 After making this, there is a possibility that I'll make uploading to Telegram. But for now it's important to make at least this.
