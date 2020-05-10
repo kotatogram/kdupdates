@@ -14,17 +14,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: stable
-          branch: stable
+          ref: stable
       - name: Clone beta
         uses: actions/checkout@v2
         with:
           path: beta
-          branch: beta
+          ref: beta
       - name: Clone master
         uses: actions/checkout@v2
         with:
           path: master
-          branch: master
+          ref: master
       - name: Copy files
         run: |
           rm -r master/*
