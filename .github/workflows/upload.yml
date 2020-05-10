@@ -35,12 +35,13 @@ jobs:
           cd master
           git status | grep -q "nothing to commit, working tree clean" \
           || echo "::set-env name=HAS_CHANGES::1"
-      - name: Setting up credentials
+      - name: Setting up repository
         if: ${{ env.HAS_CHANGES }}
         run: |
           cd master
           git config user.email ${{ secrets.COMMITER_EMAIL }}
           git config user.name ${{ secrets.COMMITER_NAME }}
+          git checkout --orphan _master
       - name: Commit changes
         if: ${{ env.HAS_CHANGES }}
         run: |
@@ -51,4 +52,4 @@ jobs:
         if: ${{ env.HAS_CHANGES }}
         run: |
           cd master
-          git push "https://${{ secrets.KOTATO_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
+          git push "https://${{ secrets.KOTATO_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" _master:master --force
