@@ -38,17 +38,17 @@ jobs:
       - name: Setting up credentials
         if: ${{ env.HAS_CHANGES }}
         run: |
-          cd target
+          cd master
           git config user.email ${{ secrets.COMMITER_EMAIL }}
           git config user.name ${{ secrets.COMMITER_NAME }}
       - name: Commit changes
         if: ${{ env.HAS_CHANGES }}
         run: |
-          cd target
+          cd master
           git add -A
           git commit -m "${{ github.event.head_commit.message }}"
-      - name: Push changes to target
+      - name: Push changes to master
         if: ${{ env.HAS_CHANGES }}
         run: |
-          cd target
+          cd master
           git push "https://${{ secrets.KOTATO_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
