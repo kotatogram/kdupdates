@@ -31,25 +31,26 @@ jobs:
           cp -r stable/* master/
           cp -r beta/* master/
       - name: Check for changes
+        id: no_changes
+        continue-on-error: true
         run: |
           cd master
-          git status | grep -q "nothing to commit, working tree clean" \
-          || echo "::set-env name=HAS_CHANGES::1"
+          git status | grep -q "nothing to commit, working tree clean"
       - name: Setting up repository
-        if: ${{ env.HAS_CHANGES }}
+        if: steps.no_changes.outcome == 'failure'
         run: |
           cd master
           git config user.email ${{ secrets.COMMITER_EMAIL }}
           git config user.name ${{ secrets.COMMITER_NAME }}
           git checkout --orphan _master
       - name: Commit changes
-        if: ${{ env.HAS_CHANGES }}
+        if: steps.no_changes.outcome == 'failure'
         run: |
           cd master
           git add -A
           git commit -m "${{ github.event.head_commit.message }}"
       - name: Push changes to master
-        if: ${{ env.HAS_CHANGES }}
+        if: steps.no_changes.outcome == 'failure'
         run: |
           cd master
           git push "https://${{ secrets.KOTATO_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" _master:master --force
